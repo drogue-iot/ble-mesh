@@ -1,4 +1,3 @@
-//pub type Opcode = u8;
 pub enum Opcode {
     OneOctet(u8),
     TwoOctet(u8, u8),
