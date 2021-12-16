@@ -1,4 +1,5 @@
 pub mod upper {
+    use heapless::Vec;
     use crate::address::{Address, UnicastAddress};
 
     pub struct PDU {
@@ -13,11 +14,11 @@ pub mod upper {
 
     pub enum PDUMessage {
         Access {
-            transport_pdu: [u8; 16],
+            transport_pdu: Vec<u8, 16>,
             net_mic: [u8; 4],
         },
         Control {
-            transport_pdu: [u8; 12],
+            transport_pdu: Vec<u8, 12>,
             net_mic: [u8; 8],
         },
     }
@@ -34,6 +35,7 @@ pub mod upper {
 }
 
 pub mod lower {
+    use heapless::Vec;
     use crate::app::ApplicationKeyIdentifier;
     use crate::control::Opcode;
 
@@ -54,25 +56,25 @@ pub mod lower {
     }
 
     pub enum AccessMessage {
-        Unsegmented([u8; 15]),
+        Unsegmented(Vec<u8,15>),
         Segmented {
             szmic: bool,
             seq_zero: u16,
             seg_o: u8,
             seg_n: u8,
-            segment_m: [u8; 12],
+            segment_m: Vec<u8, 12>,
         },
     }
 
     pub enum ControlMessage {
         Unsegmented {
-            parameters: [u8; 11],
+            parameters: Vec<u8, 11>,
         },
         Segmented {
             seq_zero: u16,
             seg_o: u8,
             seg_n: u8,
-            segment_m: [u8; 8],
+            segment_m: Vec<u8, 8>,
         },
     }
 
